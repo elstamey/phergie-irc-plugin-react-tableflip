@@ -20,7 +20,7 @@ use Phergie\Irc\Plugin\React\Command\CommandEvent as Event;
  * @category Phergie
  * @package Phergie\Irc\Plugin\React\TableFlip
  */
-class TableFlipPlugin extends AbstractPlugin
+class Plugin extends AbstractPlugin
 {
     private $array_upside_down;
 
@@ -34,7 +34,7 @@ class TableFlipPlugin extends AbstractPlugin
      */
     public function __construct(array $config = [])
     {
-        $this->array_upside_down = new array(
+        $this->array_upside_down = array(
             'a' => '\u0250',
             'b' => '\u0071',
             'c' => '\u0254',
@@ -77,18 +77,22 @@ class TableFlipPlugin extends AbstractPlugin
      */
     public function handleCommand(Event $event, Queue $queue)
     {
+        $channel = $event->getSource();
+
         $words = $event->getCustomParams();
         $new_string = "";
 
         foreach ($words as $word) {
-            $letters = chunk_split($word, 1);
+            $letters = str_split($word, 1);
             foreach ($letters as $letter) {
                 $new_string = $this->array_upside_down[$letter] . $new_string;
             }
             $new_string = " " . $new_string;
         }
 
-        return "(╯°□°）╯︵ " . $new_string;
+        $new_string = "(╯°□°）╯︵ ┻━┻ " . $new_string;
+
+        $queue->ircPrivmsg($channel, $new_string);
     }
 
 
