@@ -85,7 +85,7 @@ class Plugin extends AbstractPlugin
         foreach ($words as $word) {
             $letters = str_split($word, 1);
             foreach ($letters as $letter) {
-                $new_string = $this->array_upside_down[$letter] . $new_string;
+                $new_string = json_decode('"'.$this->array_upside_down[$letter].'"') . $new_string;
             }
             $new_string = " " . $new_string;
         }
