@@ -17,7 +17,7 @@ The recommended method of installation is [through composer](http://getcomposer.
 ```
 
 See Phergie documentation for more information on
-[installing and enabling plugins](https://github.com/phergie/phergie-irc-bot-react/wiki/Usage#plugins).
+[installing and enabling plugins](http://phergie.org/users/).
 
 ## Configuration
 
