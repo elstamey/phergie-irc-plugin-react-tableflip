@@ -110,7 +110,7 @@ class Plugin extends AbstractPlugin
     public function getSubscribedEvents()
     {
         return [
-            'command.tableflip' => 'handleCommand',
+            'command.tableflip' => 'handleTableflipCommand',
             'command.tableflip.help' => 'handleTableflipHelp',
         ];
     }
@@ -122,12 +122,19 @@ class Plugin extends AbstractPlugin
      *
      * @return string
      */
-    public function handleCommand(Event $event, Queue $queue)
+    public function handleTableflipCommand(Event $event, Queue $queue)
     {
         $channel = $event->getSource();
+        $params = $event->getCustomParams();
 
-        $words = $event->getCustomParams();
-        $new_string = "";
+        if (count( $params ) < 1) {
+            $this->handleTableflipHelp( $event, $queue );
+            $msgString = $this->getFlippedTable();
+        } else {
+            $msgString = $this->getFlippedWords( $event->getCustomParams() );
+        }
+
+        $queue->ircPrivmsg($channel, $msgString);
     }
 
     /**
@@ -145,18 +152,30 @@ class Plugin extends AbstractPlugin
         ));
     }
 
+    private function getFlippedWords($words)
+    {
+        $flippedString = "";
 
         foreach ($words as $word) {
             $letters = str_split($word, 1);
             foreach ($letters as $letter) {
-                $new_string = $this->utf8_chr($this->array_upside_down[$letter]) . $new_string;
+                if (array_key_exists($letter, $this->array_upside_down)) {
+                    $flippedString = $this->utf8_chr($this->array_upside_down[$letter]) . $flippedString;
+                } else {
+                    $flippedString = $letter . $flippedString;
+                }
             }
-            $new_string = " " . $new_string;
+            $flippedString = " " . $flippedString;
         }
 
-        $new_string = "(╯°□°）╯︵ ┻━┻ " . $new_string;
+        $flippedString = $this->getFlippedTable() . $flippedString;
+    }
 
-        $queue->ircPrivmsg($channel, $new_string);
+    private function getFlippedTable()
+    {
+        return "(╯°□°）╯︵ ┻━┻ ";
+    }
+
     /**
      * Responds to a help command.
      *
