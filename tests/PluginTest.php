@@ -35,8 +35,66 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         $this->assertInternalType('array', $plugin->getSubscribedEvents());
     }
 
-    public function testHandleCommand()
+    public function testHandleTableflipCommand()
     {
+    }
 
+    /**
+     * Tests handleTableflipHelp().
+     *
+     * @param string $method
+     * @dataProvider dataProviderHandleHelp
+     */
+    public function testHandleTableflipHelp($method)
+    {
+        $event = $this->getMockCommandEvent();
+
+        Phake::when($event)->getCustomParams()->thenReturn(array());
+        Phake::when($event)->getSource()->thenReturn('#channel');
+        Phake::when($event)->getCommand()->thenReturn('PRIVMSG');
+        $queue = $this->getMockEventQueue();
+
+        $plugin = new Plugin;
+        $plugin->$method($event, $queue);
+
+        Phake::verify($queue, Phake::atLeast(1))
+            ->ircPrivmsg('#channel', $this->isType('string'));
+    }
+
+    /**
+     * Data provider for testHandleHelp().
+     *
+     * @return array
+     */
+    public function dataProviderHandleHelp()
+    {
+        $data = array();
+        $methods = array(
+            'handleTableflipHelp',
+        );
+        foreach ($methods as $method) {
+            $data[] = array($method);
+        }
+        return $data;
+    }
+
+    /**
+     * Returns a mock command event
+     *
+     * @return \Phergie\Irc\Plugin\React\Command\CommandEvent
+     */
+    private function getMockCommandEvent()
+    {
+        return Phake::mock('Phergie\Irc\Plugin\React\Command\CommandEvent');
+    }
+
+    /**
+     * Returns a mock event queue.
+     *
+     * @return \Phergie\Irc\Bot\React\EventQueueInterface
+     */
+    protected function getMockEventQueue()
+    {
+        return Phake::mock('Phergie\Irc\Bot\React\EventQueueInterface');
     }
 }
