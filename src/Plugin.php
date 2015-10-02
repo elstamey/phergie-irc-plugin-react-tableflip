@@ -34,7 +34,8 @@ class Plugin extends AbstractPlugin
      */
     public function __construct(array $config = [])
     {
-        //https://en.wikipedia.org/wiki/Transformation_of_text#Upside-down_text
+        // https://en.wikipedia.org/wiki/Transformation_of_text#Upside-down_text
+        // http://www.fileformat.info/convert/text/upside-down-map.htm
         $this->array_upside_down = array(
             'a' => hexdec('0250'),
             'b' => hexdec('0071'),
