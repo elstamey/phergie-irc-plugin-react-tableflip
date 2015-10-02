@@ -111,6 +111,7 @@ class Plugin extends AbstractPlugin
     {
         return [
             'command.tableflip' => 'handleCommand',
+            'command.tableflip.help' => 'handleTableflipHelp',
         ];
     }
 
@@ -127,6 +128,23 @@ class Plugin extends AbstractPlugin
 
         $words = $event->getCustomParams();
         $new_string = "";
+    }
+
+    /**
+     * Tableflip Command Help
+     *
+     * @param \Phergie\Irc\Plugin\React\Command\CommandEvent $event
+     * @param \Phergie\Irc\Bot\React\EventQueueInterface $queue
+     */
+    public function handleTableflipHelp(Event $event, Queue $queue)
+    {
+        $this->sendHelpReply($event, $queue, array(
+            'Usage: tableflip message',
+            'message - the message to flip and then send (all words after this are assumed to be part of message)',
+            'Instructs the bot to return a flipped table and the inverted words in the message.',
+        ));
+    }
+
 
         foreach ($words as $word) {
             $letters = str_split($word, 1);
@@ -139,6 +157,20 @@ class Plugin extends AbstractPlugin
         $new_string = "(╯°□°）╯︵ ┻━┻ " . $new_string;
 
         $queue->ircPrivmsg($channel, $new_string);
+    /**
+     * Responds to a help command.
+     *
+     * @param \Phergie\Irc\Plugin\React\Command\CommandEvent $event
+     * @param \Phergie\Irc\Bot\React\EventQueueInterface $queue
+     * @param array $messages
+     */
+    protected function sendHelpReply(Event $event, Queue $queue, array $messages)
+    {
+        $method = 'irc' . $event->getCommand();
+        $target = $event->getSource();
+        foreach ($messages as $message) {
+            $queue->$method($target, $message);
+        }
     }
 
     private function utf8_chr($cp) {
