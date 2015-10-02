@@ -1,6 +1,6 @@
 # phergie/phergie-irc-plugin-react-tableflip
 
-[Phergie](http://github.com/phergie/phergie-irc-bot-react/) plugin for Outputting the upside down version of a phrase.
+[Phergie](http://github.com/phergie/phergie-irc-bot-react/) plugin for Outputting an overturned table and the upside down translation of a word or phrase submitted.
 
 [![Build Status](https://secure.travis-ci.org/phergie/phergie-irc-plugin-react-tableflip.png?branch=master)](http://travis-ci.org/phergie/phergie-irc-plugin-react-tableflip)
 
@@ -20,6 +20,7 @@ See Phergie documentation for more information on
 [installing and enabling plugins](https://github.com/phergie/phergie-irc-bot-react/wiki/Usage#plugins).
 
 ## Configuration
+
 
 ```php
 return [

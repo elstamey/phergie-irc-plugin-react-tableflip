@@ -1,6 +1,7 @@
 <?php
 /**
- * Phergie plugin for Outputting the upside down version of a phrase (elstamey/phergie-irc-plugin-react-table-flip)
+ * Phergie plugin for Outputting an overturned table and the upside down translation of a word or phrase submitted
+ * (elstamey/phergie-irc-plugin-react-table-flip)
  *
  * @link https://github.com/phergie/phergie-irc-plugin-react-tableflip for the canonical source repository
  * @copyright Copyright (c) 2015 Emily Stamey (http://phergie.org)
