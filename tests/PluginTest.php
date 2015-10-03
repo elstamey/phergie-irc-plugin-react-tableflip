@@ -35,25 +35,28 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         $this->assertInternalType('array', $plugin->getSubscribedEvents());
     }
 
+    /**
+    * Tests handleTableflipCommand().
+    */
     public function testHandleTableflipCommand()
     {
         $event = $this->getMockCommandEvent();
-        Phake::when($event)->getSource()->thenReturn('#channel');
+        Phake::when($event)->getCustomParams()->thenReturn(array());
+        Phake::when($event)->getSource()->thenReturn('#channel1');
         Phake::when($event)->getCommand()->thenReturn('PRIVMSG');
         $queue = $this->getMockEventQueue();
-        $plugin = new Plugin;
-        $channels = '#channel1,#channel2';
 
-        Phake::when($event)->getCustomParams()->thenReturn(array($channels));
+        $plugin = new Plugin;
         $plugin->handleTableflipCommand($event, $queue);
 
-        Phake::when($event)->getCustomParams()->thenReturn(array($channels, 'some', 'text'));
+        Phake::when($event)->getCustomParams()->thenReturn(array('#channel1', 'tableflip some text'));
         $plugin->handleTableflipCommand($event, $queue);
 
         Phake::inOrder(
-            Phake::verify($queue, Phake::atLeast(1))->ircPrivmsg('#channel', '#channel'),
-            Phake::verify($queue)->ircPrivmsg($channels, 'tableflip some text')
+            Phake::verify($queue, Phake::atLeast(1))->ircPrivmsg('#channel1', 'tableflip some text'),
+            Phake::verify($queue)->ircPrivmsg('#channel1', 'tableflip some text')
         );
+
     }
 
     /**
