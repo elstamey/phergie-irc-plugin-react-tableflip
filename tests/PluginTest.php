@@ -51,7 +51,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
 
 
         Phake::inOrder(
-            Phake::verify($queue, Phake::atLeast(1))->ircPrivmsg('#channel1', isType('string')),
+            Phake::verify($queue, Phake::atLeast(1))->ircPrivmsg('#channel1', $this->isType('string')),
             Phake::verify($queue)->ircPrivmsg('#channel1', '(╯°□°）╯︵ ┻━┻  ʍou ʇɥƃıɹ ʇǝʞɔıɹɔ ɐ ǝʇɐ ʇsnɾ ʎꞁꞁɐɹǝʇıꞁ I')
         );
 
