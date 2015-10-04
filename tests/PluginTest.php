@@ -40,15 +40,19 @@ class PluginTest extends \PHPUnit_Framework_TestCase
     */
     public function testHandleTableflipCommand()
     {
+        $channels = "#channel1,#channel2";
+        $plugin = new Plugin;
         $event = $this->getMockCommandEvent();
-        Phake::when($event)->getCustomParams()->thenReturn(array('tableflip','I','literally','just','ate','a','cricket','right','now'));
-        Phake::when($event)->getSource()->thenReturn('#channel1');
-        Phake::when($event)->getCommand()->thenReturn('PRIVMSG');
         $queue = $this->getMockEventQueue();
 
-        $plugin = new Plugin;
-        $plugin->handleTableflipCommand($event, $queue);
+        Phake::when($event)->getSource()->thenReturn('#channel1');
+        Phake::when($event)->getCommand()->thenReturn('PRIVMSG');
 
+        $plugin->handleTableflipCommand($event, $queue);
+        Phake::when($event)->getCustomParams()->thenReturn(array($channels));
+
+        $plugin->handleTableflipCommand($event, $queue);
+        Phake::when($event)->getCustomParams()->thenReturn(array($channels,'!tableflip','I','literally','just','ate','a','cricket','right','now'));
 
         Phake::inOrder(
             Phake::verify($queue, Phake::atLeast(1))->ircPrivmsg('#channel1', $this->isType('string')),
