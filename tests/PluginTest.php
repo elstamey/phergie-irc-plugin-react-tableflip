@@ -147,14 +147,22 @@ class PluginTest extends \PHPUnit_Framework_TestCase
             '(╯°□°）╯︵ ┻━┻  ¡ʍou ʇɥƃıɹ ʇǝʞɔıɹɔ ɐ ǝʇɐ ʇsnɾ ʎꞁꞁɐɹǝʇıꞁ I',
             $method->invoke(new Plugin(), array('I','literally','just','ate','a','cricket','right','now!'))
         );
-
-        // Test our Method with a single word
-        $this->assertEquals(
-            '(╯°□°）╯︵ ┻━┻  ¡ʍou',
-            $method->invoke(new Plugin(), array('now!'))
-        );
     }
 
+    public function testUnderscore()
+    {
+        // We have to set the private method accessible
+        $method = new ReflectionMethod(
+            'Phergie\Irc\Plugin\React\TableFlip\Plugin', 'getFlippedWords'
+        );
+        $method->setAccessible(TRUE);
+
+        // Test our Method with a sentence
+        $this->assertEquals(
+            '(╯°□°）╯︵ ┻━┻  dıꞁɟǝꞁqɐʇ‾uıƃnꞁd',
+            $method->invoke(new Plugin(), array('plugin_tableflip'))
+        );
+    }
 
     public function testUnexpectedCharacters()
     {
@@ -166,8 +174,8 @@ class PluginTest extends \PHPUnit_Framework_TestCase
 
         // Test our Method with a sentence
         $this->assertEquals(
-            '(╯°□°）╯︵ ┻━┻  @ # $ ^ & - _ *',
-            $method->invoke(new Plugin(), array('*','_','-','&','^','$','#','@'))
+            '(╯°□°）╯︵ ┻━┻  @ # $ ^ & - = *',
+            $method->invoke(new Plugin(), array('*','=','-','&','^','$','#','@'))
         );
     }
 

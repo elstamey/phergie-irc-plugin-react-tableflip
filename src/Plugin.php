@@ -227,6 +227,8 @@ class Plugin extends AbstractPlugin
         switch($char) {
             case "!":
                 return $this->hex_to_char('00A1');
+            case "_":
+                return $this->hex_to_char('203E');
             default:
                 return $char;
         }
