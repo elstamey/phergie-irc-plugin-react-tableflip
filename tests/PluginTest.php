@@ -204,8 +204,8 @@ class PluginTest extends \PHPUnit_Framework_TestCase
 
         // Test our Method with a sentence
         $this->assertEquals(
-            '(╯°□°）╯︵ ┻━┻  p  p @ # $ ^ + - = *',
-            $method->invoke(new Plugin(), array('*','=','-','+','^','$','#','@','d  d'))
+            '(╯°□°）╯︵ ┻━┻  ; p  p @ # $ ^ + - = *',
+            $method->invoke(new Plugin(), array('*','=','-','+','^','$','#','@','d  d', ';'))
         );
     }
 
