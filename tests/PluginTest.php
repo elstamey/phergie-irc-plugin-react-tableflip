@@ -174,8 +174,8 @@ class PluginTest extends \PHPUnit_Framework_TestCase
 
         // Test our Method with a sentence
         $this->assertEquals(
-            '(╯°□°）╯︵ ┻━┻  ɯoɔ˙qnɥʇıƃ ¡ʍou ¿oꞁꞁǝɥ',
-            $method->invoke(new Plugin(), array('hello?','now!','github.com'))
+            '(╯°□°）╯︵ ┻━┻  „ǝɔɐꞁd ʎddɐɥ„ s,ƃoɹɟ ɯoɔ˙qnɥʇıƃ ¡ʍou ¿oꞁꞁǝɥ',
+            $method->invoke(new Plugin(), array('hello?','now!','github.com','frog\'s','"happy place"'))
         );
     }
 
