@@ -226,10 +226,15 @@ class Plugin extends AbstractPlugin
     {
         switch($char) {
             case "!":
-                return $this->utf8_chr(hexdec('00A1'));
+                return $this->hex_to_char('00A1');
             default:
                 return $char;
         }
 
+    }
+
+    private function hex_to_char($char)
+    {
+        return $this->utf8_chr(hexdec($char));
     }
 }
