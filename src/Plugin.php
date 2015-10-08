@@ -169,6 +169,8 @@ class Plugin extends AbstractPlugin
         }
 
         $flippedString = $this->getFlippedTable() . $flippedString;
+
+        return $flippedString;
     }
 
     private function getFlippedTable()
