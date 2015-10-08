@@ -164,6 +164,21 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testAmpersand()
+    {
+        // We have to set the private method accessible
+        $method = new ReflectionMethod(
+            'Phergie\Irc\Plugin\React\TableFlip\Plugin', 'getFlippedWords'
+        );
+        $method->setAccessible(TRUE);
+
+        // Test our Method with a sentence
+        $this->assertEquals(
+            '(╯°□°）╯︵ ┻━┻  ɯ⅋ɯ',
+            $method->invoke(new Plugin(), array('m&m'))
+        );
+    }
+
     public function testUnexpectedCharacters()
     {
         // We have to set the private method accessible
@@ -174,8 +189,8 @@ class PluginTest extends \PHPUnit_Framework_TestCase
 
         // Test our Method with a sentence
         $this->assertEquals(
-            '(╯°□°）╯︵ ┻━┻  @ # $ ^ & - = *',
-            $method->invoke(new Plugin(), array('*','=','-','&','^','$','#','@'))
+            '(╯°□°）╯︵ ┻━┻  @ # $ ^ + - = *',
+            $method->invoke(new Plugin(), array('*','=','-','+','^','$','#','@'))
         );
     }
 
