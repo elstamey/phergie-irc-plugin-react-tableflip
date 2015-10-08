@@ -239,6 +239,10 @@ class Plugin extends AbstractPlugin
                 return $this->hex_to_char('201E');
             case "'":
                 return $this->hex_to_char('002C');
+            case "(":
+                return $this->hex_to_char('0029');
+            case ")":
+                return $this->hex_to_char('0028');
             default:
                 return $char;
         }
