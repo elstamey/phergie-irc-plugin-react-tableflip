@@ -162,7 +162,7 @@ class Plugin extends AbstractPlugin
                 if (array_key_exists($letter, $this->array_upside_down)) {
                     $flippedString = $this->utf8_chr($this->array_upside_down[$letter]) . $flippedString;
                 } else {
-                    $flippedString = $letter . $flippedString;
+                    $flippedString = $this->special_char($letter) . $flippedString;
                 }
             }
             $flippedString = " " . $flippedString;
@@ -220,5 +220,16 @@ class Plugin extends AbstractPlugin
         $trail = 0xDC00 + ($cp & 0x3FF);
 
         return json_decode('"\u'.bin2hex(pack('n', $lead)).'\u'.bin2hex(pack('n', $trail)).'"');
+    }
+
+    private function special_char($char)
+    {
+        switch($char) {
+            case "!":
+                return $this->utf8_chr(hexdec('00A1'));
+            default:
+                return $char;
+        }
+
     }
 }
