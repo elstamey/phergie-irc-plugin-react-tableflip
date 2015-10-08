@@ -134,6 +134,27 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testExclamation()
+    {
+        // We have to set the private method accessible
+        $method = new ReflectionMethod(
+            'Phergie\Irc\Plugin\React\TableFlip\Plugin', 'getFlippedWords'
+        );
+        $method->setAccessible(TRUE);
+
+        // Test our Method with a sentence
+        $this->assertEquals(
+            '(╯°□°）╯︵ ┻━┻  ¡ʍou ʇɥƃıɹ ʇǝʞɔıɹɔ ɐ ǝʇɐ ʇsnɾ ʎꞁꞁɐɹǝʇıꞁ I',
+            $method->invoke(new Plugin(), array('I','literally','just','ate','a','cricket','right','now!'))
+        );
+
+        // Test our Method with a single word
+        $this->assertEquals(
+            '(╯°□°）╯︵ ┻━┻  ¡ʍou',
+            $method->invoke(new Plugin(), array('now!'))
+        );
+    }
+
 
     public function testUnexpectedCharacters()
     {
