@@ -29,7 +29,6 @@ class Plugin extends AbstractPlugin
      *
      * Supported keys:
      *
-     *
      * @param array $config
      */
     public function __construct(array $config = [])
@@ -152,6 +151,11 @@ class Plugin extends AbstractPlugin
         ));
     }
 
+    /**
+     * @param string $words
+     *
+     * @return string
+     */
     private function getFlippedWords($words)
     {
         $flippedString = "";
@@ -173,6 +177,9 @@ class Plugin extends AbstractPlugin
         return $flippedString;
     }
 
+    /**
+     * @return string
+     */
     private function getFlippedTable()
     {
         return "(╯°□°）╯︵ ┻━┻ ";
@@ -194,6 +201,11 @@ class Plugin extends AbstractPlugin
         }
     }
 
+    /**
+     * @param string $cp
+     *
+     * @return string
+     */
     private function utf8_chr($cp) {
 
         if (!is_int($cp)) {
@@ -222,6 +234,13 @@ class Plugin extends AbstractPlugin
         return json_decode('"\u'.bin2hex(pack('n', $lead)).'\u'.bin2hex(pack('n', $trail)).'"');
     }
 
+    /**
+     * Switch statement to flip the special and punctuation characters
+     *
+     * @param string $char
+     *
+     * @return string
+     */
     private function special_char($char)
     {
         switch($char) {
@@ -249,6 +268,11 @@ class Plugin extends AbstractPlugin
 
     }
 
+    /**
+     * @param string $char
+     *
+     * @return string
+     */
     private function hex_to_char($char)
     {
         return $this->utf8_chr(hexdec($char));
