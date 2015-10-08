@@ -166,7 +166,7 @@ class Plugin extends AbstractPlugin
                 if (array_key_exists($letter, $this->array_upside_down)) {
                     $flippedString = $this->utf8_chr($this->array_upside_down[$letter]) . $flippedString;
                 } else {
-                    $flippedString = $this->special_char($letter) . $flippedString;
+                    $flippedString = $this->specialChar($letter) . $flippedString;
                 }
             }
             $flippedString = " " . $flippedString;
@@ -202,6 +202,9 @@ class Plugin extends AbstractPlugin
     }
 
     /**
+     * This is code taken directly from a Stack Overflow answer, so leaving the naming and everything consistent
+     * http://stackoverflow.com/questions/17539412/print-unicode-characters-php
+     *
      * @param string $cp
      *
      * @return string
@@ -241,27 +244,27 @@ class Plugin extends AbstractPlugin
      *
      * @return string
      */
-    private function special_char($char)
+    private function specialChar($char)
     {
         switch($char) {
             case "!":
-                return $this->hex_to_char('00A1');
+                return $this->hexToChar('00A1');
             case "_":
-                return $this->hex_to_char('203E');
+                return $this->hexToChar('203E');
             case "&":
-                return $this->hex_to_char('214B');
+                return $this->hexToChar('214B');
             case "?":
-                return $this->hex_to_char('00BF');
+                return $this->hexToChar('00BF');
             case ".":
-                return $this->hex_to_char('U2D9');
+                return $this->hexToChar('U2D9');
             case "\"":
-                return $this->hex_to_char('201E');
+                return $this->hexToChar('201E');
             case "'":
-                return $this->hex_to_char('002C');
+                return $this->hexToChar('002C');
             case "(":
-                return $this->hex_to_char('0029');
+                return $this->hexToChar('0029');
             case ")":
-                return $this->hex_to_char('0028');
+                return $this->hexToChar('0028');
             default:
                 return $char;
         }
@@ -273,7 +276,7 @@ class Plugin extends AbstractPlugin
      *
      * @return string
      */
-    private function hex_to_char($char)
+    private function hexToChar($char)
     {
         return $this->utf8_chr(hexdec($char));
     }
