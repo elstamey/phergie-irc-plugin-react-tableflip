@@ -12,6 +12,7 @@
 namespace Phergie\Irc\Tests\Plugin\React\TableFlip;
 
 use Phake;
+use ReflectionMethod;
 use Phergie\Irc\Bot\React\EventQueueInterface as Queue;
 use Phergie\Irc\Plugin\React\Command\CommandEvent as Event;
 use Phergie\Irc\Plugin\React\TableFlip\Plugin;
@@ -40,25 +41,17 @@ class PluginTest extends \PHPUnit_Framework_TestCase
     */
     public function testHandleTableflipCommand()
     {
-        $channels = "#channel1,#channel2";
-        $plugin = new Plugin;
         $event = $this->getMockCommandEvent();
         $queue = $this->getMockEventQueue();
+        $plugin = new Plugin;
 
         Phake::when($event)->getSource()->thenReturn('#channel1');
         Phake::when($event)->getCommand()->thenReturn('PRIVMSG');
 
         $plugin->handleTableflipCommand($event, $queue);
-        Phake::when($event)->getCustomParams()->thenReturn(array($channels));
+        Phake::when($event)->getCustomParams()->thenReturn(array('#channel1'));
 
-        $plugin->handleTableflipCommand($event, $queue);
-        Phake::when($event)->getCustomParams()->thenReturn(array($channels,'!tableflip','I','literally','just','ate','a','cricket','right','now'));
-
-        Phake::inOrder(
-            Phake::verify($queue, Phake::atLeast(1))->ircPrivmsg('#channel1', $this->isType('string')),
-            Phake::verify($queue)->ircPrivmsg('#channel1', '(╯°□°）╯︵ ┻━┻  ʍou ʇɥƃıɹ ʇǝʞɔıɹɔ ɐ ǝʇɐ ʇsnɾ ʎꞁꞁɐɹǝʇıꞁ I')
-        );
-
+        Phake::verify($queue, Phake::atLeast(1))->ircPrivmsg('#channel1', $this->isType('string'));
     }
 
     /**
@@ -98,6 +91,47 @@ class PluginTest extends \PHPUnit_Framework_TestCase
             $data[] = array($method);
         }
         return $data;
+    }
+
+    /**
+     * Tests private function getFlippedTable()
+     */
+    public function testGetFlippedTable()
+    {
+        // We have to set the private method accessible
+        $method = new ReflectionMethod(
+            'Phergie\Irc\Plugin\React\TableFlip\Plugin', 'getFlippedTable'
+        );
+        $method->setAccessible(TRUE);
+
+        // Test our Method
+        $this->assertEquals(
+            '(╯°□°）╯︵ ┻━┻ ', $method->invoke(new Plugin)
+        );
+    }
+
+    /**
+     * Tests private function getFlippedTable()
+     */
+    public function testGetFlippedWords()
+    {
+        // We have to set the private method accessible
+        $method = new ReflectionMethod(
+            'Phergie\Irc\Plugin\React\TableFlip\Plugin', 'getFlippedWords'
+        );
+        $method->setAccessible(TRUE);
+
+        // Test our Method with a sentence
+        $this->assertEquals(
+            '(╯°□°）╯︵ ┻━┻  ʍou ʇɥƃıɹ ʇǝʞɔıɹɔ ɐ ǝʇɐ ʇsnɾ ʎꞁꞁɐɹǝʇıꞁ I',
+            $method->invoke(new Plugin(), array('I','literally','just','ate','a','cricket','right','now'))
+        );
+
+        // Test our Method with a single word
+        $this->assertEquals(
+            '(╯°□°）╯︵ ┻━┻  ʍou',
+            $method->invoke(new Plugin(), array('now'))
+        );
     }
 
     /**
