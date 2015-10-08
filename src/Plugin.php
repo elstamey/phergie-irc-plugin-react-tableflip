@@ -29,7 +29,6 @@ class Plugin extends AbstractPlugin
      *
      * Supported keys:
      *
-     *
      * @param array $config
      */
     public function __construct(array $config = [])
@@ -152,6 +151,11 @@ class Plugin extends AbstractPlugin
         ));
     }
 
+    /**
+     * @param string $words
+     *
+     * @return string
+     */
     private function getFlippedWords($words)
     {
         $flippedString = "";
@@ -162,15 +166,20 @@ class Plugin extends AbstractPlugin
                 if (array_key_exists($letter, $this->array_upside_down)) {
                     $flippedString = $this->utf8_chr($this->array_upside_down[$letter]) . $flippedString;
                 } else {
-                    $flippedString = $letter . $flippedString;
+                    $flippedString = $this->specialChar($letter) . $flippedString;
                 }
             }
             $flippedString = " " . $flippedString;
         }
 
         $flippedString = $this->getFlippedTable() . $flippedString;
+
+        return $flippedString;
     }
 
+    /**
+     * @return string
+     */
     private function getFlippedTable()
     {
         return "(╯°□°）╯︵ ┻━┻ ";
@@ -192,6 +201,14 @@ class Plugin extends AbstractPlugin
         }
     }
 
+    /**
+     * This is code taken directly from a Stack Overflow answer, so leaving the naming and everything consistent
+     * http://stackoverflow.com/questions/17539412/print-unicode-characters-php
+     *
+     * @param string $cp
+     *
+     * @return string
+     */
     private function utf8_chr($cp) {
 
         if (!is_int($cp)) {
@@ -218,5 +235,49 @@ class Plugin extends AbstractPlugin
         $trail = 0xDC00 + ($cp & 0x3FF);
 
         return json_decode('"\u'.bin2hex(pack('n', $lead)).'\u'.bin2hex(pack('n', $trail)).'"');
+    }
+
+    /**
+     * Switch statement to flip the special and punctuation characters
+     *
+     * @param string $char
+     *
+     * @return string
+     */
+    private function specialChar($char)
+    {
+        switch($char) {
+            case "!":
+                return $this->hexToChar('00A1');
+            case "_":
+                return $this->hexToChar('203E');
+            case "&":
+                return $this->hexToChar('214B');
+            case "?":
+                return $this->hexToChar('00BF');
+            case ".":
+                return $this->hexToChar('U2D9');
+            case "\"":
+                return $this->hexToChar('201E');
+            case "'":
+                return $this->hexToChar('002C');
+            case "(":
+                return $this->hexToChar('0029');
+            case ")":
+                return $this->hexToChar('0028');
+            default:
+                return $char;
+        }
+
+    }
+
+    /**
+     * @param string $char
+     *
+     * @return string
+     */
+    private function hexToChar($char)
+    {
+        return $this->utf8_chr(hexdec($char));
     }
 }
