@@ -35,7 +35,7 @@ class Plugin extends AbstractPlugin
     {
         // https://en.wikipedia.org/wiki/Transformation_of_text#Upside-down_text
         // http://www.fileformat.info/convert/text/upside-down-map.htm
-        $this->array_upside_down = array(
+        $this->array_upside_down = [
             'a' => hexdec('0250'),
             'b' => hexdec('0071'),
             'c' => hexdec('0254'),
@@ -98,7 +98,7 @@ class Plugin extends AbstractPlugin
             '7' => hexdec('3125'),
             '8' => hexdec('0038'),
             '9' => hexdec('0036')
-        );
+        ];
     }
 
     /**
@@ -144,11 +144,11 @@ class Plugin extends AbstractPlugin
      */
     public function handleTableflipHelp(Event $event, Queue $queue)
     {
-        $this->sendHelpReply($event, $queue, array(
+        $this->sendHelpReply($event, $queue, [
             'Usage: tableflip message',
             'message - the message to flip and then send (all words after this are assumed to be part of message)',
             'Instructs the bot to return a flipped table and the inverted words in the message.',
-        ));
+        ]);
     }
 
     /**
