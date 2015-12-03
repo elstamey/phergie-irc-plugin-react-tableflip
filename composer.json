@@ -1,5 +1,5 @@
 {
-    "name": "phergie/phergie-irc-plugin-react-tableflip",
+    "name": "elstamey/phergie-irc-plugin-react-tableflip",
     "description": "Phergie plugin for Outputting the upside down version of a phrase",
     "keywords": [ "phergie", "irc", "bot", "plugin" ],
     "license": "BSD-2-Clause",
@@ -14,8 +14,8 @@
     "support": {
         "email": "elstamey@gmail.com",
         "irc": "irc://irc.freenode.net/phergie",
-        "issues": "https://github.com/phergie/phergie-irc-plugin-react-tableflip/issues",
-        "source": "https://github.com/phergie/phergie-irc-plugin-react-tableflip"
+        "issues": "https://github.com/elstamey/phergie-irc-plugin-react-tableflip/issues",
+        "source": "https://github.com/elstamey/phergie-irc-plugin-react-tableflip"
     },
     "require": {
         "phergie/phergie-irc-bot-react": "~1",
