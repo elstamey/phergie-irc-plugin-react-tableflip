@@ -18,8 +18,8 @@
         "source": "https://github.com/phergie/phergie-irc-plugin-react-tableflip"
     },
     "require": {
-        "phergie/phergie-irc-bot-react": "~1",
-        "phergie/phergie-irc-plugin-react-command": "~1.0",
+        "phergie/phergie-irc-bot-react": "~2",
+        "phergie/phergie-irc-plugin-react-command": "~2.0",
         "phergie/phergie-irc-plugin-react-tableflip": "~1.0"
     },
     "require-dev": {
