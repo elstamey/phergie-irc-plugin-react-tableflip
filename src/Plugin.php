@@ -29,77 +29,76 @@ class Plugin extends AbstractPlugin
      *
      * Supported keys:
      *
-     *
      * @param array $config
      */
     public function __construct(array $config = [])
     {
         // https://en.wikipedia.org/wiki/Transformation_of_text#Upside-down_text
         // http://www.fileformat.info/convert/text/upside-down-map.htm
-        $this->array_upside_down = array(
-            'a' => hexdec('0250'),
-            'b' => hexdec('0071'),
-            'c' => hexdec('0254'),
-            'd' => hexdec('0070'),
-            'e' => hexdec('01dd'),
-            'f' => hexdec('025f'),
-            'g' => hexdec('0183'),
-            'h' => hexdec('0265'),
-            'i' => hexdec('0131'),
-            'j' => hexdec('027e'),
-            'k' => hexdec('029e'),
-            'l' => hexdec('A781'),
-            'm' => hexdec('026f'),
-            'n' => hexdec('0075'),
-            'o' => hexdec('006F'),
-            'p' => hexdec('0064'),
-            'q' => hexdec('0062'),
-            'r' => hexdec('0279'),
-            's' => hexdec('0073'),
-            't' => hexdec('0287'),
-            'u' => hexdec('006E'),
-            'v' => hexdec('028C'),
-            'w' => hexdec('028D'),
-            'x' => hexdec('0078'),
-            'y' => hexdec('028E'),
-            'z' => hexdec('007A'),
-            'A' => hexdec('2200'),
-            'B' => hexdec('10412'),
-            'C' => hexdec('0186'),
-            'D' => hexdec('15E1'),
-            'E' => hexdec('018E'),
-            'F' => hexdec('2132'),
-            'G' => hexdec('2141'),
-            'H' => hexdec('0048'),
-            'I' => hexdec('0049'),
-            'J' => hexdec('017F'),
-            'K' => hexdec('22CA'),
-            'L' => hexdec('2142'),
-            'M' => hexdec('0057'),
-            'N' => hexdec('004E'),
-            'O' => hexdec('004F'),
-            'P' => hexdec('0500'),
-            'Q' => hexdec('038C'),
-            'R' => hexdec('1D1A'),
-            'S' => hexdec('0053'),
-            'T' => hexdec('22A5'),
-            'U' => hexdec('2229'),
-            'V' => hexdec('039B'),
-            'W' => hexdec('004D'),
-            'X' => hexdec('0058'),
-            'Y' => hexdec('2144'),
-            'Z' => hexdec('005A'),
-            '0' => hexdec('0030'),
-            '1' => hexdec('0196'),
-            '2' => hexdec('1105'),
-            '3' => hexdec('0190'),
-            '4' => hexdec('3123'),
-            '5' => hexdec('03DB'),
-            '6' => hexdec('0039'),
-            '7' => hexdec('3125'),
-            '8' => hexdec('0038'),
-            '9' => hexdec('0036')
-        );
+        $this->array_upside_down = [
+            'a' => '0250',
+            'b' => '0071',
+            'c' => '0254',
+            'd' => '0070',
+            'e' => '01dd',
+            'f' => '025f',
+            'g' => '0183',
+            'h' => '0265',
+            'i' => '0131',
+            'j' => '027e',
+            'k' => '029e',
+            'l' => 'A781',
+            'm' => '026f',
+            'n' => '0075',
+            'o' => '006F',
+            'p' => '0064',
+            'q' => '0062',
+            'r' => '0279',
+            's' => '0073',
+            't' => '0287',
+            'u' => '006E',
+            'v' => '028C',
+            'w' => '028D',
+            'x' => '0078',
+            'y' => '028E',
+            'z' => '007A',
+            'A' => '2200',
+            'B' => '10412',
+            'C' => '0186',
+            'D' => '15E1',
+            'E' => '018E',
+            'F' => '2132',
+            'G' => '2141',
+            'H' => '0048',
+            'I' => '0049',
+            'J' => '017F',
+            'K' => '22CA',
+            'L' => '2142',
+            'M' => '0057',
+            'N' => '004E',
+            'O' => '004F',
+            'P' => '0500',
+            'Q' => '038C',
+            'R' => '1D1A',
+            'S' => '0053',
+            'T' => '22A5',
+            'U' => '2229',
+            'V' => '039B',
+            'W' => '004D',
+            'X' => '0058',
+            'Y' => '2144',
+            'Z' => '005A',
+            '0' => '0030',
+            '1' => '0196',
+            '2' => '1105',
+            '3' => '0190',
+            '4' => '3123',
+            '5' => '03DB',
+            '6' => '0039',
+            '7' => '3125',
+            '8' => '0038',
+            '9' => '0036'
+        ];
     }
 
     /**
@@ -145,13 +144,18 @@ class Plugin extends AbstractPlugin
      */
     public function handleTableflipHelp(Event $event, Queue $queue)
     {
-        $this->sendHelpReply($event, $queue, array(
+        $this->sendHelpReply($event, $queue, [
             'Usage: tableflip message',
             'message - the message to flip and then send (all words after this are assumed to be part of message)',
             'Instructs the bot to return a flipped table and the inverted words in the message.',
-        ));
+        ]);
     }
 
+    /**
+     * @param string $words
+     *
+     * @return string
+     */
     private function getFlippedWords($words)
     {
         $flippedString = "";
@@ -160,17 +164,22 @@ class Plugin extends AbstractPlugin
             $letters = str_split($word, 1);
             foreach ($letters as $letter) {
                 if (array_key_exists($letter, $this->array_upside_down)) {
-                    $flippedString = $this->utf8_chr($this->array_upside_down[$letter]) . $flippedString;
+                    $flippedString = $this->hexToChar( $this->array_upside_down[$letter] ) . $flippedString;
                 } else {
-                    $flippedString = $letter . $flippedString;
+                    $flippedString = $this->specialChar($letter) . $flippedString;
                 }
             }
             $flippedString = " " . $flippedString;
         }
 
         $flippedString = $this->getFlippedTable() . $flippedString;
+
+        return $flippedString;
     }
 
+    /**
+     * @return string
+     */
     private function getFlippedTable()
     {
         return "(╯°□°）╯︵ ┻━┻ ";
@@ -192,6 +201,14 @@ class Plugin extends AbstractPlugin
         }
     }
 
+    /**
+     * This is code taken directly from a Stack Overflow answer, so leaving the naming and everything consistent
+     * http://stackoverflow.com/questions/17539412/print-unicode-characters-php
+     *
+     * @param string $cp
+     *
+     * @return string
+     */
     private function utf8_chr($cp) {
 
         if (!is_int($cp)) {
@@ -218,5 +235,49 @@ class Plugin extends AbstractPlugin
         $trail = 0xDC00 + ($cp & 0x3FF);
 
         return json_decode('"\u'.bin2hex(pack('n', $lead)).'\u'.bin2hex(pack('n', $trail)).'"');
+    }
+
+    /**
+     * Switch statement to flip the special and punctuation characters
+     *
+     * @param string $char
+     *
+     * @return string
+     */
+    private function specialChar($char)
+    {
+        switch($char) {
+            case "!":
+                return $this->hexToChar('00A1');
+            case "_":
+                return $this->hexToChar('203E');
+            case "&":
+                return $this->hexToChar('214B');
+            case "?":
+                return $this->hexToChar('00BF');
+            case ".":
+                return $this->hexToChar('U2D9');
+            case "\"":
+                return $this->hexToChar('201E');
+            case "'":
+                return $this->hexToChar('002C');
+            case "(":
+                return $this->hexToChar('0029');
+            case ")":
+                return $this->hexToChar('0028');
+            default:
+                return $char;
+        }
+
+    }
+
+    /**
+     * @param string $char
+     *
+     * @return string
+     */
+    private function hexToChar($char)
+    {
+        return $this->utf8_chr(hexdec($char));
     }
 }
